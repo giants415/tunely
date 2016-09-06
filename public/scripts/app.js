@@ -34,13 +34,24 @@ sampleAlbums.push({
            });
 /* end of hard-coded data */
 
-
-
+var $albumsList;
+var albumTemplate;
 
 $(document).ready(function() {
   console.log('app.js loaded!');
-});
 
+  $albumsList = $('#album_target');
+
+  var source = $('#album-template').html();
+  albumTemplate = Handlebars.compile(source);
+
+  for (var index = 0; index < sampleAlbums.length; index++) {
+    renderAlbum(sampleAlbums[index]);
+  }
+
+  
+
+});
 
 
 
@@ -48,5 +59,11 @@ $(document).ready(function() {
 // this function takes a single album and renders it to the page
 function renderAlbum(album) {
   console.log('rendering album:', album);
-
+  // $albumsList.empty();
+  var albumsHtml = albumTemplate({
+    name: album.name,
+    artistName: album.artistName,
+    releaseDate: album.releaseDate
+  });
+  $albumsList.append(albumsHtml);
 }
