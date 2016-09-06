@@ -37,6 +37,8 @@
 var $albumsList;
 var albumTemplate;
 var allAlbums;
+var dataAlbum;
+
 
 $(document).ready(function() {
   console.log('app.js loaded!');
@@ -48,9 +50,11 @@ $(document).ready(function() {
 
   $('#newAlbumForm').on('submit', function(event){
     event.preventDefault();
+    var dataAlbum = $(this).serialize();
+    console.log(dataAlbum);
     $.ajax({
       method: 'POST',
-      data: $('#newAlbumForm').serialize(),
+      data: dataAlbum, //$('#newAlbumForm').serialize(),
       url:'/api/albums',
       dataType: 'json',
       success: handleSuccess,
@@ -78,9 +82,16 @@ function renderAlbum(album) {
   var albumsHtml = albumTemplate({
     name: album.name,
     artistName: album.artistName,
-    releaseDate: album.releaseDate
+    releaseDate: album.releaseDate,
+    genres: album.genres
   });
   $albumsList.append(albumsHtml);
+}
+
+function handleSuccess () {
+  console.log('new album created');
+  allAlbums = dataAlbum;
+  renderAlbum([allAlbums]);
 }
 
 function getAllSuccess (json){
