@@ -46,9 +46,18 @@ $(document).ready(function() {
   var source = $('#album-template').html();
   albumTemplate = Handlebars.compile(source);
 
-  // for (var index = 0; index < sampleAlbums.length; index++) {
-  //   renderAlbum(sampleAlbums[index]);
-  // }
+  $('#newAlbumForm').on('submit', function(event){
+    event.preventDefault();
+    $.ajax({
+      method: 'POST',
+      data: $('#newAlbumForm').serialize(),
+      url:'/api/albums',
+      dataType: 'json',
+      success: handleSuccess,
+      error: getAllError
+    })
+    $(this).trigger("reset");
+  })
 
   $.ajax({
     method: 'GET',

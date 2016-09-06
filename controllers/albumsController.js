@@ -17,7 +17,21 @@ function index(req, res) {
 }
 
 function create(req, res) {
-  // FILL ME IN !
+  // console.log(req);
+  var newAlbum = new db.Album({
+    name: req.body.name,
+    artistName: req.body.artistName,
+    releaseDate: req.body.releaseDate,
+    genres: req.body.genres.split(', ')
+  });
+  // console.log(newAlbum);
+  newAlbum.save(function(err, album){
+    if (err){
+      res.send(err);
+      return;
+    }
+    res.json(album);
+  })
 }
 
 function show(req, res) {
