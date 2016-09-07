@@ -15,7 +15,7 @@ var dataAlbum;
 $(document).ready(function() {
   console.log('app.js loaded!');
 
-  $albumsList = $('#album_target');
+  // $albumsList = $('#album-template');
 
   var source = $('#album-template').html();
   albumTemplate = Handlebars.compile(source);
@@ -42,6 +42,23 @@ $(document).ready(function() {
     error: getAllError
   })
 
+  $('#albums').on('click', '.add-song', function handleNewSongClick(e) {
+    console.log('add-song clicked!');
+    var id= $(this).closest('.album').data('album-id');
+    console.log('id',id);
+    $('#songModal').data('album-id', id);
+    $('#songModal').modal('toggle');
+  });
+
+  $('#saveSong').on('click', function handleNewSongSubmit(e){
+    e.preventDefault();
+    console.log("song save button clicked");
+    console.log($('#songName').val() , $('#trackNumber').val());
+    var newModalSong = $('#songName').val();
+    var newModalNum = $('#trackNumber').val();
+    // ajax
+    // on succes
+  })
 
 });
 
@@ -51,23 +68,18 @@ $(document).ready(function() {
 // this function takes a single album and renders it to the page
 function renderAlbum(album) {
   console.log('rendering album:', album);
-  var albumsHtml = albumTemplate({
-    name: album.name,
-    artistName: album.artistName,
-    releaseDate: album.releaseDate,
-    genres: album.genres
-  });
-  $albumsList.append(albumsHtml);
+  var albumsHtml = albumTemplate(album);
+  $('#albums').append(albumsHtml);
 }
 
 function handleSuccess () {
   console.log('new album created');
   allAlbums = dataAlbum;
-  renderAlbum([allAlbums]);
+  renderAlbum(allAlbums);
 }
 
 function getAllSuccess (json){
-  $albumsList.empty();
+  $('#albums').empty();
   allAlbums = json;
   allAlbums.forEach(function (album){
     renderAlbum(album);

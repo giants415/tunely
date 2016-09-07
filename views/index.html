@@ -46,10 +46,9 @@
       </div>
       <!-- albums! -->
       <div id='albums'>
-
+          <script id="album-template" type="text/x-handlebars-template">
           <!-- one album -->
-          <div class="row album" id="album_target">
-            <script id="album-template" type="text/x-handlebars-template">
+          <div class="row album" data-album-id={{_id}}>
               <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
                   <div class="panel-body">
@@ -77,6 +76,12 @@
                             <h4 class='inline-header'>Released date:</h4>
                             <span class='album-releaseDate'>{{releaseDate}}</span>
                           </li>
+                          <li class="list-group-item">
+                            <h4 class='inline-header'>Songs:</h4>
+                            {{#each song}}
+                            <span> &ndash; ({{trackNumber}}) {{name}}</span>
+                            {{/each}}
+                          </li>
                         </ul>
                       </div>
 
@@ -84,6 +89,7 @@
                     <!-- end of album internal row -->
 
                     <div class='panel-footer'>
+                      <button class='btn btn-primary add-song'>Add Song</button>
                     </div>
 
                   </div>
@@ -106,7 +112,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">Create Song</h4>
           </div>
-          <div class="modal-body">
+          <div class="modal-body modalForm">
 
             <fieldset class='form-horizontal'>
               <!-- Text input-->

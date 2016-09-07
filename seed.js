@@ -54,7 +54,7 @@ var sampleSongs = [];
     });
 
 albumsList.forEach(function(album) {
-album.song = sampleSongs;
+  album.song = sampleSongs;
 });
 
 
